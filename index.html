@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonicCraft Studios - Digital Music Creation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Color palette with high gamut for text, mid/low for backgrounds */
+            --color-primary: #0a0a12;
+            --color-secondary: #16162a;
+            --color-accent: #1e1e38;
+            --color-card: #252547;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #a6a6ff;
+            --color-text-accent: #5dffc5;
+            --color-text-highlight: #ff7ee5;
+            --color-button: #4c36c9;
+            --color-button-hover: #6350e0;
+            --color-success: #00d26a;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--color-secondary);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-accent);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--color-text-highlight);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0.8rem;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text-primary);
+            background-color: var(--color-accent);
+        }
+
+        .nav-links a.active {
+            color: var(--color-text-accent);
+            background-color: var(--color-accent);
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(to bottom, var(--color-secondary), var(--color-primary));
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--color-text-accent), var(--color-text-highlight));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--color-text-secondary);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-button);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--color-button-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Section Styling */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--color-text-accent);
+        }
+
+        /* Reviews Section */
+        .reviews {
+            padding: 3rem 0;
+        }
+
+        .review-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background-color: var(--color-card);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .review-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--color-text-secondary);
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--color-text-accent), var(--color-text-highlight));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .reviewer-info h4 {
+            color: var(--color-text-primary);
+        }
+
+        .reviewer-info p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* App Cards */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .app-card {
+            background-color: var(--color-card);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-card-header {
+            padding: 1.5rem;
+            background-color: var(--color-accent);
+            text-align: center;
+        }
+
+        .app-card-body {
+            padding: 1.5rem;
+        }
+
+        .app-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-accent);
+        }
+
+        .app-card-desc {
+            color: var(--color-text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Social Media */
+        .social-section {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--color-accent), var(--color-card));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-primary);
+            font-size: 1.5rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            color: var(--color-text-highlight);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: var(--color-text-secondary);
+            border-top: 1px solid var(--color-accent);
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background-color: var(--color-card);
+            border-radius: var(--border-radius);
+            color: var(--color-text-primary);
+            font-size: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: var(--color-button);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--color-button-hover);
+        }
+
+        /* Success Stories */
+        .story-card {
+            background-color: var(--color-card);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .story-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--color-text-accent), var(--color-text-highlight));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <i class="fas fa-wave-square"></i>
+                SonicCraft Studios
+            </a>
+            <div class="nav-links">
+                <a href="#" class="active" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('about')">About</a>
+                <a href="#" onclick="showPage('contact')">Contact Us</a>
+                <a href="#" onclick="showPage('success')">Success Stories</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h1>Create Music Like Never Before</h1>
+                <p>SonicCraft Studios provides cutting-edge tools for musicians, producers, and DJs to unleash their creativity and craft exceptional sound experiences.</p>
+                <a href="#" class="cta-button" onclick="showPage('apps')">Explore Our Apps</a>
+            </div>
+
+            <div class="reviews">
+                <h2 class="section-title">What Our Users Say</h2>
+                <div class="review-cards">
+                    <div class="review-card">
+                        <p class="review-text">"The DJ Mixer App completely transformed my live sets. The intuitive interface and powerful features make it stand out from any other software I've used."</p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">DJ</div>
+                            <div class="reviewer-info">
+                                <h4>Maria Rodriguez</h4>
+                                <p>Professional DJ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <p class="review-text">"As a music teacher, the Music Sequencer App has been invaluable for demonstrating composition techniques to my students in an engaging way."</p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">MT</div>
+                            <div class="reviewer-info">
+                                <h4>James Wilson</h4>
+                                <p>Music Educator</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <p class="review-text">"The Lyrics App helped me break through writer's block. The rhyming dictionary and phrase suggestions are incredibly useful for songwriting."</p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">SL</div>
+                            <div class="reviewer-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Singer-Songwriter</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-section">
+                <h2 class="section-title">Connect With Us</h2>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-spotify"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <h2 class="section-title">About SonicCraft Studios</h2>
+            <div class="story-card">
+                <p>SonicCraft Studios was founded in 2015 by a team of music enthusiasts and software engineers who believed that music creation tools should be accessible, intuitive, and powerful. Our mission is to empower musicians of all levels with innovative software that removes technical barriers and enhances creativity.</p>
+                <p>Today, we serve over 500,000 users worldwide, from hobbyists to professional producers working with major artists. Our team continues to push the boundaries of what's possible in music technology, regularly updating our apps with new features and improvements.</p>
+            </div>
+            
+            <h3 class="section-title">Our Team</h3>
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>Alex Turner</h3>
+                        <p>Founder & Lead Developer</p>
+                    </div>
+                    <div class="app-card-body">
+                        <p>Alex is a classically trained pianist and software engineer with a passion for creating tools that bridge the gap between technology and art.</p>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>Maya Johnson</h3>
+                        <p>Head of Design</p>
+                    </div>
+                    <div class="app-card-body">
+                        <p>Maya brings over 10 years of UX/UI experience to SonicCraft, ensuring our applications are both beautiful and intuitive to use.</p>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>David Chen</h3>
+                        <p>Audio Engineer</p>
+                    </div>
+                    <div class="app-card-body">
+                        <p>David holds a PhD in Audio Signal Processing and is responsible for the exceptional sound quality of all our applications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="story-card">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+            
+            <div class="social-section">
+                <h3 class="section-title">Other Ways to Connect</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-spotify"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Apps Page -->
+        <div id="apps" class="page">
+            <h2 class="section-title">Our Applications</h2>
+            
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>DJ Mixer App</h3>
+                    </div>
+                    <div class="app-card-body">
+                        <p class="app-card-desc">Professional-grade mixing software with seamless transitions, effects, and support for multiple decks. Perfect for live performances and practice.</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul>
+                            <li>4-deck layout with crossfader</li>
+                            <li>Extensive effects library</li>
+                            <li>Beat matching and sync</li>
+                            <li>Recording and export</li>
+                        </ul>
+                        <a href="#" class="cta-button">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>Music Sequencer App</h3>
+                    </div>
+                    <div class="app-card-body">
+                        <p class="app-card-desc">Create intricate patterns and arrangements with our powerful sequencer. Supports MIDI, various instrument plugins, and real-time recording.</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul>
+                            <li>Pattern-based sequencing</li>
+                            <li>Piano roll editor</li>
+                            <li>VST and AU support</li>
+                            <li>Time-stretching and quantization</li>
+                        </ul>
+                        <a href="#" class="cta-button">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>Lyrics App</h3>
+                    </div>
+                    <div class="app-card-body">
+                        <p class="app-card-desc">Overcome writer's block with our intelligent lyrics assistant. Rhyme suggestions, thematic ideas, and structure guidance all in one place.</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul>
+                            <li>Rhyming dictionary</li>
+                            <li>Thesaurus and word suggestions</li>
+                            <li>Song structure templates</li>
+                            <li>Collaboration features</li>
+                        </ul>
+                        <a href="#" class="cta-button">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <h3>Album Cover App</h3>
+                    </div>
+                    <div class="app-card-body">
+                        <p class="app-card-desc">Design stunning album artwork with our easy-to-use design tool. Templates, filters, and professional design elements at your fingertips.</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul>
+                            <li>Customizable templates</li>
+                            <li>Advanced image editing</li>
+                            <li>Typography tools</li>
+                            <li>Export for print and digital</li>
+                        </ul>
+                        <a href="#" class="cta-button">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Stories Page -->
+        <div id="success" class="page">
+            <h2 class="section-title">Success Stories</h2>
+            
+            <div class="story-card">
+                <div class="story-header">
+                    <div class="story-avatar">EC</div>
+                    <div>
+                        <h3>Emma Collins</h3>
+                        <p>Electronic Producer</p>
+                    </div>
+                </div>
+                <p>"Using SonicCraft's Music Sequencer App, I was able to produce my debut album which eventually got signed to a major label. The workflow is intuitive and the sound quality is exceptional."</p>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-header">
+                    <div class="story-avatar">RK</div>
+                    <div>
+                        <h3>Ryan Kim</h3>
+                        <p>Club DJ</p>
+                    </div>
+                </div>
+                <p>"The DJ Mixer App revolutionized my performances. I can now focus more on reading the crowd and less on technical details, thanks to the seamless mixing and intelligent features."</p>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-header">
+                    <div class="story-avatar">LS</div>
+                    <div>
+                        <h3>Liam Smith</h3>
+                        <p>Songwriter</p>
+                    </div>
+                </div>
+                <p>"As someone who struggles with lyrics, the Lyrics App has been a game-changer. It helped me complete songs that I'd been stuck on for months, and one of them became my first charting single."</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 SonicCraft Studios. All rights reserved.</p>
+            <p>Designed with ♥ for music creators worldwide.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to the clicked link (simplified)
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
